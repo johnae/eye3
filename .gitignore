@@ -1,0 +1,12 @@
+*.o
+build
+tools/luajit
+lib.lua
+vendor.lua
+main.lua
+spook
+.envrc_user
+spook-*.gz
+lib/version.moon
+tools/github-release
+playground
