@@ -9,7 +9,7 @@ It's highly programmable through the super fast built in [LuaJIT VM](http://luaj
 
 It's very early and bit hacky atm. Some notable features are:
 
-Built in ljsyscall which means you can call into the kernel and have those calls be as fast as if you called
+Built in [ljsyscall](https://github.com/justincormack/ljsyscall) which means you can call into the kernel and have those calls be as fast as if you called
 them from C. For example the net throughput built in is doing this.
 
 Coroutines are used to mitigate the callback soup that easily ensues when using libuv (as in nodejs).
