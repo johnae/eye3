@@ -1,16 +1,6 @@
 uv = require "uv"
 {:remove} = table
 
---capture = (cmd, raw) ->
---  f = assert io.popen(cmd, 'r')
---  s = assert f\read '*a'
---  f\close!
---  return s if raw
---  s = s\gsub '^%s+',''
---  s = s\gsub '^%s+$',''
---  s = s\gsub '[\n\r]+',' '
---  s
-
 capture = (cmdline, opts={}) ->
   thread, main = coroutine.running!
   assert not main, "Error can't suspend main thread"
