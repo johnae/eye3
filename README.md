@@ -2,8 +2,8 @@
 
 ## Eye3
 
-Eye3 is a flexible scheduler for your i3 bar. So if you're using the i3 window manager it may be intersting
-to you.
+Eye3 is a flexible scheduler for your i3 bar. So if you're using the [i3 window manager](https://i3wm.org/) it may be intersting
+to you. Also, any other wm with a compatible protocol should work like for example [sway](http://swaywm.org/).
 
 It's highly programmable through the super fast built in [LuaJIT VM](http://luajit.org/) and [moonscript](https://github.com/leafo/moonscript).
 
