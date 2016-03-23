@@ -4,9 +4,9 @@ tools/luajit
 lib.lua
 vendor.lua
 main.lua
-spook
+eye3
 .envrc_user
-spook-*.gz
+eye3-*.gz
 lib/version.moon
 tools/github-release
 playground

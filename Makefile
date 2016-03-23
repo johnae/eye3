@@ -36,7 +36,7 @@ all: eye3
 
 eye3: $(LIBLUV) $(OBJECTS)
 	@echo "BUILDING EYE3"
-	$(CC) $(CFLAGS) -fPIC -o eye3 lua_cjson.c app.c $(OBJECTS) $(ARCHIVES) -I $(LIBUV_INCLUDE) -I $(LIBLUV_INCLUDE) -I $(LUAJIT_INCLUDE) -lm -ldl -lpthread $(EXTRAS)
+	$(CC) $(CFLAGS) -fPIC -o eye3 app.c $(OBJECTS) $(ARCHIVES) -I $(LIBUV_INCLUDE) -I $(LIBLUV_INCLUDE) -I $(LUAJIT_INCLUDE) -lm -ldl -lpthread $(EXTRAS)
 
 rebuild: clean all
 

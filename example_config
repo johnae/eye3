@@ -1,0 +1,194 @@
+normal_color = "#FFFFFF"
+warning_color = "#FFFC00"
+critical_color = "#FF0000"
+good_color = "#4CBB17"
+round = math.round
+net_throughput = require "linux.net_throughput"
+cpu_usage = require "cpu_usage"
+pulseaudio = require "pulseaudio"
+external_ip = require "external_ip"
+battery = require "battery"
+disk_usage = require "disk_usage"
+
+block "Bandwidth", ->
+  interval 1000
+  iface = net_throughput!
+  on_update ->
+    status, err = iface!
+    unless iface.up
+      color critical_color
+      text " net down"
+      return
+    if iface.interface\match '^wlan'
+      label " "
+    else
+      label "#{iface.interface}: "
+
+    color normal_color
+    text " #{iface.receive_rate}#{iface.rx_unit}  #{iface.transmit_rate}#{iface.tx_unit}"
+
+block "External IP", ->
+  interval 30000
+  label " "
+  ext_ip = "unknown"
+  on_update ->
+    color normal_color
+    ext_ip = external_ip!
+    text "#{ext_ip}"
+  on_left_click ->
+    color warning_color
+    text "<copied>"
+    execute "xclip -selection clipboard", input: ext_ip 
+    sleep 500
+    color normal_color
+    text ext_ip
+
+block "Cpu usage", ->
+  interval 2000
+  label " "
+  on_update ->
+    cpu = cpu_usage!
+    if cpu < 50
+      color normal_color
+    else if cpu < 70
+      color warning_color
+    else
+      color critical_color
+    text "#{cpu}%"
+
+block "Battery", ->
+  batt100   = ' '
+  batt75    = ' '
+  batt50    = ' '
+  batt25    = ' '
+  batt0     = ' '
+  charging  = ' '
+  interval 30 * 1000
+  alert_sent = false
+  on_update ->
+    {:status, :percent, :time_remaining} = battery!
+    color normal_color
+    if status == 'discharging'
+      symbol = if percent < 10
+        unless alert_sent
+          alert_sent = true
+          execute "/usr/bin/notify-send", args: {"Low Battery", "There is only #{time_remaining} of use left"}
+        color critical_color
+        batt0
+      else if percent < 25
+        color warning_color
+        batt25
+      else if percent < 50
+        color warning_color
+        batt50
+      else if percent < 75
+        batt75
+      else
+        batt100
+      tr = time_remaining and " (#{time_remaining})" or ''
+      text "#{percent}% #{symbol}#{tr}"
+    elseif status == 'charging'
+      alert_sent = false
+      color good_color
+      tr = time_remaining and " (#{time_remaining})" or ''
+      text "#{percent}% #{charging}#{tr}"
+
+block "Disk", ->
+  interval 10000
+  label " "
+  dir = "/"
+  on_update ->
+    avail, use = disk_usage dir
+    if use<=10
+      color warning_color
+    else
+      color normal_color
+    text "#{avail}"
+  on_left_click ->
+    execute "nautilus"
+
+block "Date and Time", ->
+  interval 1000
+  label " "
+  on_update ->
+    date = os.date "%b-%d %H:%M"
+    text "#{date}"
+  on_left_click ->
+    execute "gsimplecal"
+
+ext_mon_on = ->
+  out = capture "xrandr -q"
+  for line in *out\split("\n")
+    if line\match '^HDMI'
+      if line\match '%d+mm'
+        return true
+      break
+  false
+
+
+block "monitor", ->
+  interval 30000
+  label ' '
+  right_of_sym = ""
+  left_of_sym = ""
+  sym = right_of_sym
+  on_update ->
+    if ext_mon_on!
+      text sym
+    else
+      text "OFF"
+  on_left_click ->
+    if ext_mon_on!
+      execute "xrandr --output HDMI1 --off"
+      text "OFF"
+    else
+      execute 'xrandr --output HDMI1 --mode 1920x1080 --right-of eDP1'
+      sym = right_of_sym
+      text sym
+  on_right_click ->
+    if ext_mon_on!
+      execute "xrandr --output HDMI1 --off"
+      text "OFF"
+    else
+      execute 'xrandr --output HDMI1 --mode 1920x1080 --left-of eDP1'
+      sym = left_of_sym
+      text sym
+
+pulse = pulseaudio!
+block "Volume", ->
+  interval 5000
+  label '♪ '
+  step = 0.02
+  vol = (pulse) -> round(pulse.info.volume * 100 + 0.5)
+  on_update ->
+    pulse.update!
+    if pulse.info.mute
+      text "mute"
+    else
+      text "#{vol(pulse)}%"
+  on_left_click ->
+    pulse.toggle_mute!
+    pulse.update!
+    if pulse.info.mute
+      text "mute"
+    else
+      text "#{vol(pulse)}%"
+  on_right_click ->
+    execute "unity-control-center sound"
+  on_scroll_up ->
+    v = pulse.info.volume + step
+    pulse.volume v
+    pulse.update!
+    if pulse.info.mute
+      text "mute"
+    else
+      text "#{vol(pulse)}%"
+  on_scroll_down ->
+    v = pulse.info.volume - step
+    pulse.volume v
+    pulse.update!
+    if pulse.info.mute
+      text "mute"
+    else
+      text "#{vol(pulse)}%"
+

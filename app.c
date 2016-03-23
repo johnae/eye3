@@ -29,6 +29,10 @@ int main(int argc, char **argv)
   // store uv module at preload.uv
   lua_pushcfunction(L, luaopen_luv);
   lua_setfield(L, -2, "uv");
+
+  lua_pushlightuserdata(L, NULL);
+  lua_setglobal(L, "JNULL");
+
   lua_getglobal(L, "require");
   lua_pushliteral(L, "main");
 
