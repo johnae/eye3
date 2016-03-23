@@ -12,7 +12,7 @@ them from C. For example the net throughput built in is doing this.
 
 Coroutines are used to mitigate the callback soup that easily ensues when using libuv (as in nodejs).
 
-Buiding eye3 requires the usual tools + cmake, so you may need to to apt-get/brew/yum/etc install cmake before
+Building eye3 requires the usual tools + cmake, so you may need to to apt-get/brew/yum/etc install cmake before
 building it. Otherwise it should be as straightforward as:
 
 ```
