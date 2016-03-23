@@ -89,4 +89,4 @@ dir_diff = (a, b) ->
         d[k] = "CREATED"
   d
 
-:dirtree, :rm_rf, :mkdir_p, :is_dir, :is_file, :is_present, :dir_table, :dir_diff, :inode_table
+:dirtree, :rm_rf, :mkdir_p, :is_dir, :is_file, :is_present, :dir_table, :dir_diff
