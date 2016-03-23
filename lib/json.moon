@@ -1,5 +1,5 @@
 --
--- json.lua
+-- adapted from json.lua
 --
 -- Copyright (c) 2015 rxi
 --
@@ -133,7 +133,7 @@ decode_error = (str, idx, msg) ->
   col_count = 1
   for i = 1, idx - 1
     col_count = col_count + 1
-    if str:sub(i, i) == "\n"
+    if str\sub(i, i) == "\n"
       line_count = line_count + 1
       col_count = 1
   error( string.format("%s at line %d col %d", msg, line_count, col_count) )
@@ -164,7 +164,7 @@ parse_string = (str, i) ->
   has_unicode_escape = false
   has_surrogate_escape = false
   has_escape = false
-  last
+  local last
   for j = i + 1, #str
     x = str\byte j
 
@@ -214,7 +214,7 @@ parse_number = (str, i) ->
 
 parse_literal = (str, i) ->
   x = next_char str, i, delim_chars
-  word = str:sub i, x - 1
+  word = str\sub i, x - 1
   unless literals[word]
     decode_error str, i, "invalid literal '" .. word .. "'"
   return literal_map[word], x
