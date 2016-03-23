@@ -14,6 +14,8 @@ them from C. For example the net throughput built in is doing this.
 
 Coroutines are used to mitigate the callback soup that easily ensues when using libuv (as in nodejs).
 
+Click and scroll events work.
+
 Building eye3 requires the usual tools + cmake, so you may need to to apt-get/brew/yum/etc install cmake before
 building it. Otherwise it should be as straightforward as:
 
@@ -40,5 +42,10 @@ eye3 path/to/config
 
 So that is what you want to do in your i3 config to use this as the bar scheduler. If you're curious about
 how to go about writing a config file, have a look at the example_config included in the repo.
+
+A slightly similar project, especially similar in it's small memory/cpu footprint would be [i3blocks](https://github.com/vivien/i3blocks). This
+project was actually started as a fun thing for me to do but I also wanted less shelling out by building in a scripting language. At least it should
+be possible to lower the cpu footprint by using eye3 as opposed to i3blocks but... honestly - it's mostly a fun thing for me to do atm and i3blocks
+is also a very good i3 bar scheduler.
 
 Again - I've thrown this together pretty quickly and it's very rough all over atm.
