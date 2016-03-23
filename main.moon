@@ -10,6 +10,22 @@ moonscript = require "moonscript.base"
 uv = require "uv"
 json = require "json"
 {:block, :named_blocks, :blocks, :data_block} = require "block"
+{:index_of} = table
+
+-- run whatever specified if provided the -f argument
+if fi = index_of arg, "-f"
+  file = arg[fi + 1]
+  new_args = [a for i, a in ipairs arg when i>(fi + 1)]
+  unless file
+    log.error "The -f option requires an argument"
+    os.exit 1
+  _G.arg = new_args
+  loaded_chunk = if file\match "[^.]%.lua$"
+    assert loadfile(file), "Failed to load file: #{file}"
+  else -- assume it's moonscript
+    assert moonscript.loadfile(file), "Failed to load file: #{file}"
+  loaded_chunk!
+  return
 
 encode_json = (v) -> json.encode v, false
 

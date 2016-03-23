@@ -16,10 +16,10 @@ test:
     - make lint
     - make test
 
-deployment:
-  release:
-    tag: /[0-9]+(\.[0-9]+)*/
-    owner: johnae
-    commands:
-      - make release-create || true
-      - make release-upload || true
+#deployment:
+#  release:
+#    tag: /[0-9]+(\.[0-9]+)*/
+#    owner: johnae
+#    commands:
+#      - make release-create || true
+#      - make release-upload || true

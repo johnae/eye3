@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/johnae/eye3.svg?style=svg)](https://circleci.com/gh/johnae/eye3)
+
 ## Eye3
 
 Eye3 is a flexible scheduler for your i3 bar. So if you're using the i3 window manager it may be intersting
