@@ -1,5 +1,10 @@
 [![Circle CI](https://circleci.com/gh/johnae/eye3.svg?style=svg)](https://circleci.com/gh/johnae/eye3)
 
+## Abandoned
+
+Please see [moonbar](https://github.com/johnae/moonbar) instead. That one is based on [spook](https://github.com/johnae/spook) and is what
+I use myself for my i3bar these days.
+
 ## Eye3
 
 Eye3 is a flexible scheduler for your i3 bar. So if you're using the [i3 window manager](https://i3wm.org/) it may be intersting
